@@ -85,7 +85,8 @@ process.stdin.on("data", function (data) {
                 achou++
                 rodou = 1;
               }
-            }if(achou > 1){//if caso tenha mais de um paciente com o mesmo nome
+            }if(achou > 1){//if caso tenha mais de um paciente com o mesmo nome 
+              //TODO arrumar esse if caso tenha 2 pacientes cadastrado
               console.log("Qual registro você deseja apagar?")
               if(!escolhaUsuario){
                 escolhaUsuario = +data.toString().trim();
