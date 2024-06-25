@@ -3,9 +3,10 @@ let mensagemInicial =
 let opcao = 0;
 let paciente = {
   nome: "",
-  médico: "",
+  medico: "",
   data: "",
   hora: "",
+  status: "",
 };
 let entradaUsuario;
 const CONSULTAS = [];
@@ -15,17 +16,20 @@ process.stdin.on("data", function (data) {
     opcao = +data.toString().trim();
     if (opcao == 1) {
       console.log("Informe o nome do paciente:");
+    }else if(opcao == 2){
+      console.log("Pressione ENTER para aparecer")
+    }else if(opcao == 5){
+      console.log("Deseja mesmo sair?")
     }
   }else{
    switch (opcao) {
 //processo de adicionar consultas    
       case 1:
-        if (!paciente.nome) {
-          console.log("aq chegou")  
+        if (!paciente.nome) { 
           paciente.nome = data.toString().trim();
           console.log("Agora informe qual médico irá atendê-lo:");
-        } else if (!paciente.médico) {
-          paciente.médico = data.toString().trim();
+        } else if (!paciente.medico) {
+          paciente.medico = data.toString().trim();
           console.log("Informe a data da consulta:");
         } else if (!paciente.data) {
           paciente.data = data.toString().trim();
@@ -33,18 +37,43 @@ process.stdin.on("data", function (data) {
         } else if (!paciente.hora) {
           paciente.hora = data.toString().trim();
           console.log("Consulta cadastrada com sucesso!");
+          paciente.status = "Agendado"
           CONSULTAS.push(paciente);
           paciente = {
               nome: "",
-              médico: "",
+              medico: "",
               data: "",
               hora: "",
             };
           console.log(mensagemInicial);
+          opcao = 0
 //---------------------------------------------------------
         }
         break;
-
+        case 2:
+          for(let i = 0;i < CONSULTAS.length;i++){
+            if(CONSULTAS[i].status == "Agendado"){
+              console.log(CONSULTAS[i])
+            }  
+          }
+          console.log("\n", mensagemInicial); 
+          opcao = 0;
+        break;
+        case 5:
+          if(!entradaUsuario){
+            entradaUsuario = data.toString().trim().toLowerCase();
+          }if(entradaUsuario == "sim" || entradaUsuario == "s"){
+            console.log("Encerrando sistema...")
+            process.exit();
+          }else if(entradaUsuario == "não" || entradaUsuario == "nao" || entradaUsuario == "n"){
+            opcao = 0;
+            console.log(mensagemInicial);
+          }else{
+            console.log("Opção Inválida, comece novamente");
+            opcao = 0;
+            console.log(mensagemInicial);
+          }
+          break;
       default:
         break;
     }
