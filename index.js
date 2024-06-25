@@ -23,6 +23,7 @@ process.stdin.on("data", function (data) {
     }
   }else{
    switch (opcao) {
+//-------------------------------------------------------------------------
 //processo de adicionar consultas    
       case 1:
         if (!paciente.nome) { 
@@ -47,9 +48,10 @@ process.stdin.on("data", function (data) {
             };
           console.log(mensagemInicial);
           opcao = 0
-//---------------------------------------------------------
         }
         break;
+//-------------------------------------------------------------------------
+//processo de listagem conforme status da consulta;
         case 2:
           for(let i = 0;i < CONSULTAS.length;i++){
             if(CONSULTAS[i].status == "Agendado"){
@@ -59,6 +61,8 @@ process.stdin.on("data", function (data) {
           console.log("\n", mensagemInicial); 
           opcao = 0;
         break;
+//-------------------------------------------------------------------------
+//processo de saída e confirmação de saída
         case 5:
           if(!entradaUsuario){
             entradaUsuario = data.toString().trim().toLowerCase();
@@ -74,6 +78,7 @@ process.stdin.on("data", function (data) {
             console.log(mensagemInicial);
           }
           break;
+//-------------------------------------------------------------------------
       default:
         break;
     }
