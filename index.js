@@ -14,7 +14,7 @@ const CONSULTAS = [];
 let achou = 0;
 let indice;
 let excluirUsuario;
-let escolhaUsuario;
+let escolhaUsuario = "";
 let rodou = 0;
 //----------------------------------------------
 console.log(mensagemInicial);
@@ -73,6 +73,7 @@ process.stdin.on("data", function (data) {
         break;
 //-------------------------------------------------------------------------
 //processo de exclusão
+//TODO funcionando porém precisa digitar 2x para apagar caso tenha 2 cadastros com o mesmo nome
         case 4:
           if(!excluirUsuario){
             excluirUsuario = data.toString().trim();
@@ -85,28 +86,30 @@ process.stdin.on("data", function (data) {
                 achou++
                 rodou = 1;
               }
-            }if(achou > 1){//if caso tenha mais de um paciente com o mesmo nome 
-              //TODO arrumar esse if caso tenha 2 pacientes cadastrado
-              console.log("Qual registro você deseja apagar?")
-              if(!escolhaUsuario){
-                escolhaUsuario = +data.toString().trim();
-              }else{
-                console.log("Consulta cancelada!");
-                CONSULTAS[escolhaUsuario].status = "Cancelado";
-                rodou = 0;
-                opcao = 0;
-                console.log(mensagemInicial);
-              }
-            }else if(achou == 1){//if caso tenha encontrado somente 1 paciente com o nome;
-              console.log("Consulta cancelada!")
-              CONSULTAS[indice].status = "Cancelado"
-              opcao = 0;
-              console.log(mensagemInicial);
+            }
+            console.log("Pressione ENTER para continuar")
+          }
+          else if(achou > 1){//if caso tenha mais de um paciente com o mesmo nome 
+            console.log("Qual registro você deseja apagar?")
+            if(!escolhaUsuario){
+              escolhaUsuario = data.toString().trim();
             }else{
-              console.log("Registro não encontrado!\n");
+              console.log("Consulta cancelada!");
+              CONSULTAS[escolhaUsuario].status = "Cancelado";
+              rodou = 0;
               opcao = 0;
+              escolhaUsuario = "";
               console.log(mensagemInicial);
             }
+          }else if(achou == 1){//if caso tenha encontrado somente 1 paciente com o nome;
+            console.log("Consulta cancelada!")
+            CONSULTAS[indice].status = "Cancelado"
+            opcao = 0;
+            console.log(mensagemInicial);
+          }else{
+            console.log("Registro não encontrado!\n");
+            opcao = 0;
+            console.log(mensagemInicial);
           }
           break;
           
