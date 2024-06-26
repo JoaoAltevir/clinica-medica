@@ -41,10 +41,10 @@ process.stdin.on("data", function (data) {
           console.log("Agora informe qual médico irá atendê-lo:");
         } else if (!paciente.medico) {
           paciente.medico = input;
-          console.log("Informe a data da consulta:");
+          console.log("Informe a data da consulta (XX/XX/XXXX):");
         } else if (!paciente.data) {
           paciente.data = input;
-          console.log("Por fim, qual o horário da consulta?");
+          console.log("Por fim, qual o horário da consulta?(XX:XX)");
         } else if (!paciente.hora) {
           paciente.hora = input;
           console.log("Consulta cadastrada com sucesso!");
@@ -65,7 +65,11 @@ process.stdin.on("data", function (data) {
         case 2:
           for(let i = 0;i < CONSULTAS.length;i++){
             if(CONSULTAS[i].status == "Agendado"){
-              console.log(CONSULTAS[i])
+              console.log("--------------------------------------------")
+              console.log("Nome:", CONSULTAS[i].nome)
+              console.log("Médico responsável:", CONSULTAS[i].medico)
+              console.log("Dia da consulta:", CONSULTAS[i].data)
+              console.log("Horário agendado:", CONSULTAS[i].hora)
             }  
           }
           console.log("\n", mensagemInicial); 
