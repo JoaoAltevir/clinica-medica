@@ -76,8 +76,11 @@ process.stdin.on("data", function (data) {
           opcao = 0;
         break;
 //-------------------------------------------------------------------------
+//processo para alterar algum dado
+        case 3:
+          break;
+//-------------------------------------------------------------------------
 //processo de exclusão
-//TODO funcionando porém precisa digitar 2x para apagar caso tenha 2 cadastros com o mesmo nome
         case 4:
           if(!excluirUsuario){
             excluirUsuario = data.toString().trim();
@@ -91,13 +94,13 @@ process.stdin.on("data", function (data) {
                 rodou = 1;
               }
             }
-            console.log("Pressione ENTER para continuar")
+            if(achou > 1){
+              console.log("Qual registro você deseja apagar?")
+            }
           }
           else if(achou > 1){//if caso tenha mais de um paciente com o mesmo nome 
-            console.log("Qual registro você deseja apagar?")
             if(!escolhaUsuario){
               escolhaUsuario = data.toString().trim();
-            }else{
               console.log("Consulta cancelada!");
               CONSULTAS[escolhaUsuario].status = "Cancelado";
               rodou = 0;
