@@ -260,7 +260,7 @@ process.stdin.on("data", function (data) {
             console.log("Pressione ENTER para continuar")
           }else if(rodou == 0){
           for(let i = 0; i < CONSULTAS.length;i++){
-              if(excluirUsuario == CONSULTAS[i].nome){
+              if(excluirUsuario == CONSULTAS[i].nome && CONSULTAS[i].status == "Agendado"){
                 console.log("Registro", i, "\n", CONSULTAS[i]);
                 indice = i;
                 achou++
