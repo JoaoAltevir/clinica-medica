@@ -14,8 +14,10 @@ const CONSULTAS = [];
 let achou = 0;
 let indice;
 let excluirUsuario;
-let escolhaUsuario = "";
+let escolhaUsuario;
 let rodou = 0;
+let escolhaAlterar = 0;
+let escolhaIndice;
 //----------------------------------------------
 console.log(mensagemInicial);
 process.stdin.on("data", function (data) {
@@ -26,6 +28,8 @@ process.stdin.on("data", function (data) {
       console.log("Informe o nome do paciente:");
     }else if(opcao == 2){
       console.log("Pressione ENTER para aparecer")
+    }else if (opcao == 3){
+      console.log("Informe o nome do paciente que deseja alterar:")
     }else if(opcao == 4){
       console.log("Informe o nome do paciente que deseja cancelar:")
     }else if(opcao == 5){
@@ -65,11 +69,12 @@ process.stdin.on("data", function (data) {
         case 2:
           for(let i = 0;i < CONSULTAS.length;i++){
             if(CONSULTAS[i].status == "Agendado"){
-              console.log("--------------------------------------------")
-              console.log("Nome:", CONSULTAS[i].nome)
-              console.log("Médico responsável:", CONSULTAS[i].medico)
-              console.log("Dia da consulta:", CONSULTAS[i].data)
-              console.log("Horário agendado:", CONSULTAS[i].hora)
+              console.log("--------------------------------------------");
+              console.log("Registro", i);
+              console.log("\tNome:", CONSULTAS[i].nome);
+              console.log("\tMédico responsável:", CONSULTAS[i].medico);
+              console.log("\tDia da consulta:", CONSULTAS[i].data);
+              console.log("\tHorário agendado:", CONSULTAS[i].hora);
             }  
           }
           console.log("\n", mensagemInicial); 
@@ -78,16 +83,184 @@ process.stdin.on("data", function (data) {
 //-------------------------------------------------------------------------
 //processo para alterar algum dado
         case 3:
+          if(!escolhaUsuario){
+            escolhaUsuario = input;
+            console.log("Pressione ENTER para continuar");
+          }
+          else if(rodou == 0){
+            for(let i = 0;i < CONSULTAS.length; i++){
+              if(escolhaUsuario == CONSULTAS[i].nome && CONSULTAS[i].status == "Agendado"){
+                  console.log("--------------------------------------------");
+                  console.log("Registro", i);
+                  console.log("\tNome:", CONSULTAS[i].nome);
+                  console.log("\tMédico responsável:", CONSULTAS[i].medico);
+                  console.log("\tDia da consulta:", CONSULTAS[i].data);
+                  console.log("\tHorário agendado:", CONSULTAS[i].hora);
+                  indice = i;
+                  achou++;
+                  rodou = 1;
+                }
+              }
+              if(achou == 1){
+                console.log(`O que você deseja alterar?
+                [1] Nome
+                [2] Médico
+                [3] Dia da consulta
+                [4] Horário da consulta`);     
+              }else if(achou > 1){
+                console.log("Qual registro você deseja alterar?");
+              }
+            }
+            else if(achou == 1){
+              if(escolhaAlterar == 0){
+                escolhaAlterar = +input;
+                if(escolhaAlterar == 1){
+                console.log("Digite qual será o novo nome inserido:");
+                }else if(escolhaAlterar == 2){
+                  console.log("Digite qual médico que irá atender o paciente:");
+                }else if(escolhaAlterar == 3){
+                  console.log("Informe para qual dia vai ser colocado a consulta?");
+                }else if(escolhaAlterar == 4){
+                  console.log("Informe o novo horário da consulta:")
+              }
+            }else{
+              switch(escolhaAlterar){
+                case 1:
+                  CONSULTAS[indice].nome = input;
+                  console.log("Nome atualizado!");
+                  opcao = 0;
+                  achou = 0;
+                  rodou = 0;
+                  escolhaAlterar = 0;
+                  escolhaUsuario = "";
+                  console.log(mensagemInicial);
+                  break;
+                case 2:
+                  CONSULTAS[indice].medico = input;
+                  console.log("Médico atualizado!");
+                  opcao = 0;
+                  achou = 0;
+                  rodou = 0;
+                  escolhaAlterar = 0;
+                  escolhaUsuario = "";
+                  console.log(mensagemInicial);
+                  break;
+                case 3:
+                  CONSULTAS[indice].data = input;
+                  console.log("Dia da consulta atualizado!");
+                  opcao = 0;
+                  rodou = 0;
+                  achou = 0;
+                  escolhaAlterar = 0;
+                  escolhaUsuario = "";
+                  console.log(mensagemInicial);
+                  break;
+                case 4:
+                  CONSULTAS[indice].hora = input;
+                  console.log("Horário da consulta atualizado!");
+                  opcao = 0;
+                  achou = 0;
+                  rodou = 0;
+                  escolhaAlterar = 0;
+                  escolhaUsuario = "";
+                  console.log(mensagemInicial);
+                  break;
+                default:
+                  console.log("Opção inválida, tente novamente");
+                  opcao = 0;
+                  achou = 0;
+                  rodou = 0;
+                  escolhaAlterar = 0;
+                  escolhaUsuario = "";
+                  console.log(mensagemInicial);
+                  break;
+              }
+            }
+          }else if(achou > 1){
+            if(!escolhaIndice){
+              escolhaIndice = +input;
+              console.log(`O que você deseja alterar?
+                [1] Nome
+                [2] Médico
+                [3] Dia da consulta
+                [4] Horário da consulta`);
+                if(escolhaAlterar == 0){
+                  escolhaAlterar = +input;
+                  if(escolhaAlterar == 1){
+                  console.log("Digite qual será o novo nome inserido:");
+                  }else if(escolhaAlterar == 2){
+                    console.log("Digite qual médico que irá atender o paciente:");
+                  }else if(escolhaAlterar == 3){
+                    console.log("Informe para qual dia vai ser colocado a consulta?");
+                  }else if(escolhaAlterar == 4){
+                    console.log("Informe o novo horário da consulta:")
+                }
+              }
+              else{
+                switch(escolhaAlterar){
+                  case 1:
+                    CONSULTAS[escolhaIndice].nome = input;
+                    console.log("Nome atualizado!");
+                    opcao = 0;
+                    achou = 0;
+                    rodou = 0;
+                    escolhaAlterar = "";
+                    escolhaUsuario = "";
+                    console.log(mensagemInicial);
+                  break;
+                  case 2:
+                    CONSULTAS[escolhaIndice].medico = input;
+                    console.log("Médico atualizado!");
+                    opcao = 0;
+                    achou = 0;
+                    rodou = 0;
+                    escolhaAlterar = 0;
+                    escolhaUsuario = "";
+                    console.log(mensagemInicial);
+                  break;
+                  case 3:
+                    CONSULTAS[escolhaIndice].data = input;
+                    console.log("Dia da consulta atualizado!");
+                    opcao = 0;
+                    rodou = 0;
+                    achou = 0;
+                    escolhaAlterar = 0;
+                    escolhaUsuario = "";
+                    console.log(mensagemInicial);
+                  break;
+                  case 4:
+                    CONSULTAS[escolhaIndice].hora = input;
+                    console.log("Horário da consulta atualizado!");
+                    opcao = 0;
+                    achou = 0;
+                    rodou = 0;
+                    escolhaAlterar = 0;
+                    escolhaUsuario = "";
+                    console.log(mensagemInicial);
+                  break;
+                  default:
+                    console.log("Opção inválida, tente novamente");
+                    opcao = 0;
+                    achou = 0;
+                    rodou = 0;
+                    escolhaAlterar = 0;
+                    escolhaUsuario = "";
+                    console.log(mensagemInicial);
+                  break;
+                }
+              }
+            }
+          }
           break;
 //-------------------------------------------------------------------------
 //processo de exclusão
         case 4:
           if(!excluirUsuario){
-            excluirUsuario = data.toString().trim();
+            excluirUsuario = input;
             console.log("Pressione ENTER para continuar")
           }else if(rodou == 0){
           for(let i = 0; i < CONSULTAS.length;i++){
-              if(excluirUsuario == CONSULTAS[i].nome){
+              if(excluirUsuario == CONSULTAS[i].nome && CONSULTAS[i].status == "Agendado"){
                 console.log("Registro", i, "\n", CONSULTAS[i]);
                 indice = i;
                 achou++
@@ -105,6 +278,7 @@ process.stdin.on("data", function (data) {
               CONSULTAS[escolhaUsuario].status = "Cancelado";
               rodou = 0;
               opcao = 0;
+              achou = 0;
               escolhaUsuario = "";
               console.log(mensagemInicial);
             }
@@ -112,10 +286,14 @@ process.stdin.on("data", function (data) {
             console.log("Consulta cancelada!")
             CONSULTAS[indice].status = "Cancelado"
             opcao = 0;
+            rodou = 0;
+            achou = 0;
             console.log(mensagemInicial);
           }else{
             console.log("Registro não encontrado!\n");
             opcao = 0;
+            achou = 0;
+            rodou = 0;
             console.log(mensagemInicial);
           }
           break;
@@ -124,12 +302,13 @@ process.stdin.on("data", function (data) {
 //processo de saída e confirmação de saída
         case 5:
           if(!entradaUsuario){
-            entradaUsuario = data.toString().trim().toLowerCase();
+            entradaUsuario = input;
           }if(entradaUsuario == "sim" || entradaUsuario == "s"){
             console.log("Encerrando sistema...")
             process.exit();
           }else if(entradaUsuario == "não" || entradaUsuario == "nao" || entradaUsuario == "n"){
             opcao = 0;
+            entradaUsuario = undefined;
             console.log(mensagemInicial);
           }else{
             console.log("Opção Inválida, comece novamente");
