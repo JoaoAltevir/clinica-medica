@@ -54,8 +54,18 @@ function listar() {
   }
   console.log("\n");
 }
-function alterar(){
-
+function alterar(I){
+  indice = I;
+  escolhaAlterar = +prompt(`O que você deseja alterar?
+  [1] Nome
+  [2] Médico
+  [3] Dia da consulta
+  [4] Horário da consulta
+  Sua opção: `);
+  modificar(escolhaAlterar, indice);
+}
+function modificar(escolha, I){
+  CONSULTAS[I].escolha = prompt("Insira o novo dado:")
 }
 //----------------------------------------------
 menu();
@@ -72,7 +82,9 @@ process.stdin.on("data", function (data) {
       menu();
       opcao = 0;    
     } else if (opcao == 3) {
-      console.log("Informe o nome do paciente que deseja alterar:");
+      listar();
+      escolhaUsuario = +prompt("Qual é o registro que deseja alterar? (digite o número):");
+      alterar(escolhaUsuario);
     } else if (opcao == 4) {
       console.log("Informe o nome do paciente que deseja cancelar:");
     } else if (opcao == 5) {
@@ -82,7 +94,7 @@ process.stdin.on("data", function (data) {
     switch (opcao) {
     //------------------------------------------------------------------------
     //processo para alterar algum dado
-      case 3:
+      /*case 3:
         if (!escolhaUsuario) {
           escolhaUsuario = input;
           console.log("Pressione ENTER para continuar");
@@ -254,6 +266,7 @@ process.stdin.on("data", function (data) {
           }
         }
         break;
+        */
       //-------------------------------------------------------------------------
       //processo de exclusão
       case 4:
