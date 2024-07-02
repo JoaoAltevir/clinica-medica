@@ -1,3 +1,5 @@
+const PromptSync = require("prompt-sync");
+
 //variaveis-------------------------------------
 const prompt = require("prompt-sync")();
 let opcao = 0;
@@ -53,7 +55,7 @@ function listar() {
   console.log("\n");
 }
 function alterar(){
-  
+
 }
 //----------------------------------------------
 menu();
@@ -329,7 +331,7 @@ process.stdin.on("data", function (data) {
       default:
         console.log("Opção inválida, tente novamente...");
         opcao = 0;
-        console.log(mensagemInicial);
+        menu();
         break;
     }
   }
