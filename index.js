@@ -10,11 +10,7 @@ let paciente = {
 };
 let entradaUsuario;
 const CONSULTAS = [];
-let achou = 0;
-let indice;
-let excluirUsuario;
 let escolhaUsuario;
-let rodou = 0;
 //----------------------------------------------
 //funções
 function menu() {
@@ -78,9 +74,14 @@ function alterar(i, dadoAlterar){
       console.log("Opção inválida, digite novamente: ");
   } 
 }
+function excluirUsuario(indice){
+  CONSULTAS[indice].status = "Cancelado";
+  console.log("Consulta cancelada com sucesso!");
+}
 
 
 //----------------------------------------------
+//"programa principal"
 menu();
 process.stdin.on("data", function (data) {
   let input = data.toString().trim();
@@ -96,68 +97,24 @@ process.stdin.on("data", function (data) {
       opcao = 0;    
     } else if (opcao == 3) {
       listar();
-      escolhaUsuario = +prompt("Qual é o registro que deseja alterar? (digite o número):");
+      escolhaUsuario = +prompt("Qual é o registro que deseja cancelar? (digite o número): ");
       escolhaDadosAlterar(escolhaUsuario);
       menu();
       opcao = 0;
+      escolhaUsuario = undefined;
     } else if (opcao == 4) {
-      console.log("Informe o nome do paciente que deseja cancelar:");
+      listar();
+      escolhaUsuario = +prompt("Qual é o registro que deseja alterar? (digite o número): ");
+      excluirUsuario(escolhaUsuario);
+      menu();
+      opcao = 0;
+      escolhaUsuario = undefined;
     } else if (opcao == 5) {
       console.log("Deseja mesmo sair?");
     }
   } else {
     switch (opcao) {
-    //------------------------------------------------------------------------
-      //processo de exclusão
-      case 4:
-        if (!excluirUsuario) {
-          excluirUsuario = input;
-          console.log("Pressione ENTER para continuar");
-        } else if (rodou == 0) {
-          for (let i = 0; i < CONSULTAS.length; i++) {
-            if (
-              excluirUsuario == CONSULTAS[i].nome &&
-              CONSULTAS[i].status == "Agendado"
-            ) {
-              console.log("Registro", i, "\n", CONSULTAS[i]);
-              indice = i;
-              achou++;
-              rodou = 1;
-            }
-          }
-          if (achou > 1) {
-            console.log("Qual registro você deseja apagar?");
-          }
-        } else if (achou > 1) {
-          //if caso tenha mais de um paciente com o mesmo nome
-          if (!escolhaUsuario) {
-            escolhaUsuario = data.toString().trim();
-            console.log("Consulta cancelada!");
-            CONSULTAS[escolhaUsuario].status = "Cancelado";
-            rodou = 0;
-            opcao = 0;
-            achou = 0;
-            escolhaUsuario = "";
-            menu();
-          }
-        } else if (achou == 1) {
-          //if caso tenha encontrado somente 1 paciente com o nome;
-          console.log("Consulta cancelada!");
-          CONSULTAS[indice].status = "Cancelado";
-          opcao = 0;
-          rodou = 0;
-          achou = 0;
-          menu();
-        } else {
-          console.log("Registro não encontrado!\n");
-          opcao = 0;
-          achou = 0;
-          rodou = 0;
-          menu();
-        }
-        break;
-
-      //-------------------------------------------------------------------------
+//-------------------------------------------------------------------------
       //processo de saída e confirmação de saída
       case 5:
         if (!entradaUsuario) {
